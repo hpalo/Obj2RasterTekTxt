@@ -1,5 +1,5 @@
 # Obj2RasterTekTxt
-This is a simple converter from Wavefront's .obj format to the Raster Tek's txt format used in their tutorials at https://www.rastertek.com/. By using this you can create models e.g. in Blender, and after conversion load them into the tutorials. 
+This is a simple converter from Wavefront's .obj format to the Raster Tek's txt format used in Raster Tek's tutorials at https://www.rastertek.com/. By using this you can create models e.g. in Blender and export them as .obj files, and after conversion load them into the tutorials. Take a look for example at a model loading tutorial at https://www.rastertek.com/dx11win10tut07.html.
 
 This converter takes into account the next four tags:
 - v (vertex position)
@@ -64,8 +64,10 @@ Data:
 -1 0 -1 0.001113 0.998887 -0 -1 -0
 1 0 -1 0.998887 0.998887 -0 -1 -0
 </pre>
-That can be loaded by Raster Tek's tutorials. You must use "Triangulated Mesh" when exporting a model from Blender as Raster Tek does not support quads as a faces.
+That can be loaded by Raster Tek's tutorials. There are 8 values per row: 3 for a position, 2 for a texture coordinate and 3 for a normal. You must use "Triangulated Mesh" when exporting a model from Blender as Raster Tek does not support quads as a faces.
 
-# Compiling the project
-This project was created using Visual Studio and Windows but this should compile on other platforms as well. To build the project on Windows create an empty project or a console project and remove all existing files. Copy all files in the source folder into the project's directory. Add files in the source folder into the project. If everything went well the application should build.
+# Compiling the Project
+This project was created using Visual Studio and Windows but this should compile on other platforms as well. First, clone the project. To build the project on Windows create an empty project. Copy the source folder into the empty project's directory. Add files in the source folder into the project in Visual Studio. For example, add .h files into "Header Files" and .cpp files into "Source Files". Finally, set C++ Language Standard to "ISO C++17 Standard" in Project Properties -> C/C++ -> Language. Build the project and use the application in command prompt in the following way:
+<pre>appname pyramid.obj pyramid.txt</pre>
+You can test the application using the file "pyramid.obj" that is in the repo. After conversion a converted file "pyramid.txt" should be created and it can be used in the Raster Tek's tutorials.
 
