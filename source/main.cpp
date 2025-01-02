@@ -19,6 +19,6 @@ int main(int argc, char *argv[])
     converter.Convert(argv[1], argv[2]);
 #else
     OBJConverter converter;
-    converter.Convert("pyramid_lh3.obj", "p.txt");
+    converter.Convert("pyramid.obj", "pyramid.txt");
 #endif
 }
