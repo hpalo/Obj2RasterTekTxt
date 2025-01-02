@@ -1,7 +1,7 @@
 # Obj2RasterTekTxt
 This is a simple converter from Wavefront's .obj format to the Raster Tek's txt format used in Raster Tek's tutorials at https://www.rastertek.com/. By using this you can create models e.g. in Blender and export them as .obj files, and after conversion load them into the tutorials. Take a look for example at a model loading tutorial at https://www.rastertek.com/dx11win10tut07.html.
 
-This converter takes into account the next four tags:
+This converter takes into account the following four tags:
 - v (vertex position)
 - vt (texture coordinates)
 - vn (normals)
