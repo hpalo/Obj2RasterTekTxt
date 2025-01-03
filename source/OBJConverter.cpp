@@ -70,10 +70,20 @@ bool OBJConverter::ParseOBJ(const char *filePath) {
 			char* trimmedBufffer = lineBuffer + 2;
 			
 			for (int i = 0; i < 3; ++i) {
-				if (sscanf_s(trimmedBufffer, "%lu/%lu/%lu", &v, &t, &n) != 3) {
+				int valueCount = sscanf_s(trimmedBufffer, "%lu/%lu/%lu", &v, &t, &n);
+				if (valueCount != 3) {
 					printf("Error parsing values.\n");
+					printf("trimmedBuffer: %s\n", trimmedBufffer);
+					printf("v t n: %lu/%lu/%lu\n", v, t, n);
+					printf("Length of trimmedBuffer: %d\n", strlen(trimmedBufffer));
 					return false;
 				}
+
+				char buf[64];
+				sprintf_s(buf, "%lu/%lu/%lu", v, t, n);
+
+				int lenghtOfElement = strlen(buf);		// 3 elements per row
+
 				vertexIndex = (v - 1) * 3;
 				texIndex = (t - 1) * 2;
 				normIndex = (n - 1) * 3;
@@ -91,7 +101,7 @@ bool OBJConverter::ParseOBJ(const char *filePath) {
 
 				++verticeCount;
 
-				trimmedBufffer += 6;
+				trimmedBufffer += lenghtOfElement + 1;	// Move to the next element
 			}
 		}
 	}
@@ -102,20 +112,29 @@ bool OBJConverter::ParseOBJ(const char *filePath) {
 
 void OBJConverter::ExportOBJasRasterTek(const char* filePath)
 {
-	std::ofstream outFile;
-	outFile.open(filePath);
-	outFile << "Vertex Count: " << getVerticesCount() << "\n\n";
-	outFile << "Data:\n\n";
-	for (int i = 0; i < getVerticesCount(); ++i) {
+	FILE* file;
+	errno_t err;
+	err = fopen_s(&file, filePath, "w");
+	if (err != 0)
+	{
+		printf("The file '%s' was not opened\n", filePath);
+		return;
+	}
+
+	fprintf(file, "Vertex Count: %d\n\n", getVerticesCount());
+	fprintf(file, "Data:\n\n");
+	for (int i = 0; i < getVerticesCount(); ++i)
+	{
 		for (int j = 0; j < 8; ++j)
 		{
-			outFile << rowValues[i*8+j];
-			if (j == 7) outFile << "\n";
-			else outFile << " ";
+			fprintf(file, "%9.6f", rowValues[i*8+j]);
+			if (j == 7) fprintf(file, "\n");
+			else fprintf(file, " ");
 		}
 	}
-	outFile.close();
-	cout << "File '" << filePath << "' was created.";
+
+	fclose(file);
+	printf("File '%s' was created.", filePath);
 }
 
 int OBJConverter::getVerticesCount() { return verticeCount; }
